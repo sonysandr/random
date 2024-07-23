@@ -1,24 +1,31 @@
-const parent = React.createElement("div", { id: "main" }, [ //the main array for children of parent
-  React.createElement("div", { id: "child1" }, [
-    React.createElement("h1", {}, "I AM THE h1"), //we make use an array for making sibilings using sqaure brackets
-    React.createElement("h2", {}, "I AM THE h2"), //we make it into an array
-  ]),
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-  React.createElement("div", { id: "child2 " }, [
-    React.createElement("h1", {}, "I AM THE h1 child 2"), //we make use an array for making sibilings using sqaure brackets
-    React.createElement("h2", {}, "I AM THE h2 child 2"), //we make it into an array
-  ]),
-]);
+// React element1
+const game = <h1>Game ON</h1>;
 
-// we use the [React.createElement()] to make an h1 tag with "hello world from react inside it" - its creates an object
-// {} this object is where we give attributes to our tags
-const heading = React.createElement(
-  "h1",
-  { id: "heading", xyz: "kingqueen" },
-  "Hello world from react "
+// React element2
+const bingo = <div>{game}</div>;
+
+// React functional components
+const HeadingComp = function () {
+  return <>{bingo}</>;
+};
+
+// js variable
+const data = 10000;
+
+const Heading = () => (
+  <div id="king" className="queen">
+    {/* 3 ways to call a functional component in JSX */}
+    {HeadingComp()}
+    <HeadingComp/>
+    <HeadingComp></HeadingComp>
+    {100 + data}
+    {console.log("queen of console")}
+  </div>
 );
-console.log(heading); // object
-// now we create a root for our react, where all our code is rendered
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
-// we can render the heading object in to our root
-root.render(parent);
+
+root.render(<Heading />);
