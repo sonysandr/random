@@ -39,16 +39,15 @@
   margin-bottom: 20px;
 }
 
-.res-container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+.res-container {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .res-card {
-
   width: 200px;
-  background-color: bisque;
+
+  background-color: rgb(235, 230, 225);
   padding: 5px;
   border-radius: 1%;
   margin: 5px;
@@ -56,12 +55,14 @@
 
 .res-card:hover {
   cursor: pointer;
-  border: gray solid 1px;
+  border: rgb(244, 243, 243) solid 1px;
+  box-shadow: 5px 5px rgb(202, 207, 212);
 }
 
 .res-logo {
   width: 95%;
-  height: 135px;
+  height: 150px;
+  object-fit: fill;
   padding: 5px;
   border-radius: 15px;
 }
