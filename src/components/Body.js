@@ -1,66 +1,77 @@
 import RestroCard from "./RestroCard.js";
-import resList from "../utils/mockData.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Shimmer from "./Shimmer.js";
 
 // Body
 const Body = () => {
   // state variable
 
-  const [listOfRestaurants, setListOfRestaurants] = useState(resList);
-  //   const arr = useState(resList);
-  //  the above line is basically
-  // const listOfRestaurants =arr[0];
-  // const setListOfRestaurants = arr[1];
+  const [listOfRestaurants, setListOfRestaurants] = useState([]);
+  const [filteredRestaurant, setFilteredRestaurant] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
-  // normal js variable
-  //   let listOfRestaurants = [
-  //     {
-  //       info: {
-  //         id: "671928",
-  //         name: "KFC",
-  //         cloudinaryImageId:
-  //           "RX_THUMBNAIL/IMAGES/VENDOR/2024/4/17/510f05e2-a9e7-49fe-8ab3-ea8c2eb8a5ae_671928.JPG",
+  console.log("Body rendered");
 
-  //         costForTwo: "₹400 for two",
-  //         cuisines: ["Burgers", "Fast Food", "Rolls & Wraps"],
-  //         avgRating: 4.2,
-  //         deliveryTime: 40,
-  //       },
-  //     },
-  //     {
-  //       info: {
-  //         id: "671967",
-  //         name: "Dominos",
-  //         cloudinaryImageId:
-  //           "RX_THUMBNAIL/IMAGES/VENDOR/2024/4/17/510f05e2-a9e7-49fe-8ab3-ea8c2eb8a5ae_671928.JPG",
+  //   useEffect hook
+  useEffect(() => {
+    console.log("useEffect hook called after the initial Body render");
+    fetchData();
+  }, []);
 
-  //         costForTwo: "₹400 for two",
-  //         cuisines: ["Burgers", "Fast Food", "Rolls & Wraps"],
-  //         avgRating: 4.6,
-  //         deliveryTime: 41,
-  //       },
-  //     },
-  //     {
-  //       info: {
-  //         id: "671909",
-  //         name: "Chicking",
-  //         cloudinaryImageId:
-  //           "RX_THUMBNAIL/IMAGES/VENDOR/2024/4/17/510f05e2-a9e7-49fe-8ab3-ea8c2eb8a5ae_671928.JPG",
+  const fetchData = async () => {
+    // here we are using api from swiggy and using cors extention
+    const data = await fetch(
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9352403&lng=77.624532&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+    );
+    const json = await data.json();
+    console.log(json);
+    // optional chaining in js used to better our code
+    setListOfRestaurants(
+      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
+    setFilteredRestaurant(
+      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
+  };
 
-  //         costForTwo: "₹788 for two",
-  //         cuisines: ["Burgers", "Fast Food", "Rolls & Wraps"],
-  //         avgRating: 3.9,
-  //         deliveryTime: 7,
-  //       },
-  //     },
-  //   ];
+  //   conditional rendering
+  //   if(listOfRestaurants.length === 0) {
+  //     return <Shimmer/>
+  //   }
 
-  return (
+  // ternary operator for better code
+  return listOfRestaurants.length === 0 ? (
+    <Shimmer />
+  ) : (
     <div className="body">
-      <div className="search"> Search</div>
-
       {/* Rated Restaurtant filter button */}
       <div className="filter">
+        <div className="search">
+          <input
+            type="search"
+            className="search-box"
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+          />
+          <button
+            onClick={() => {
+              // filter the cards and update the ui
+              //
+              console.log(searchText);
+              const searchRestaurant = listOfRestaurants.filter((res) => {
+                return res.info.name
+                  .toLowerCase()
+                  .includes(searchText.toLowerCase());
+              });
+
+              setFilteredRestaurant(searchRestaurant);
+            }}
+          >
+            Search
+          </button>
+        </div>
         <button
           className="filter-btn"
           onClick={() => {
@@ -75,7 +86,7 @@ const Body = () => {
             console.log("mouse over");
           }}
         >
-          Rated Restaurants
+          TOP Rated Restaurants
         </button>
       </div>
 
@@ -84,7 +95,7 @@ const Body = () => {
         {/* RestroCard */}
         {/* <RestroCard resData={resList[2]} /> */}
 
-        {listOfRestaurants.map((item) => {
+        {filteredRestaurant.map((item) => {
           return <RestroCard key={item.info.id} resData={item} />;
         })}
       </div>
