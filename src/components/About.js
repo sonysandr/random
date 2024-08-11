@@ -1,12 +1,14 @@
 import React from "react";
 
+import User from "./User";
+import UserClass from "./UserClass";
+
 const About = () => {
   return (
-    <div >
+    <div>
       <h1>About us</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, illum?
-      </p>
+      <User name="Sandman fn prop" />
+      <UserClass name="Sandman class prop" location ="Himalayas"/>
     </div>
   );
 };
