@@ -2,6 +2,7 @@ import RestroCard from "./RestroCard.js";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer.js";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus.js";
 
 // Body
 const Body = () => {
@@ -34,6 +35,20 @@ const Body = () => {
       json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   };
+
+
+// onlinestatus
+const onlineStatus = useOnlineStatus();
+
+if(onlineStatus === false) 
+  return(
+    <div>
+      <h1>Opps.. Looks like you're offline. Check internet connection</h1>
+    </div>
+  );
+
+
+
 
   //   conditional rendering
   //   if(listOfRestaurants.length === 0) {

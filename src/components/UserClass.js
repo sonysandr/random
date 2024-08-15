@@ -1,43 +1,44 @@
 import React from "react";
 
 class UserClass extends React.Component {
-
-constructor(props){
+  constructor(props) {
     super(props);
-    this.state = {  
-        count : 110,
-        count2: 233,
-       
-    }
-    console.log("child constructor")
-}
+    this.state = {
+      userInfo: {
+        name: "dummy",
+        public_repos: "default",
+      },
+    };
 
-componentDidMount(){
+    console.log("child constructor");
+  }
+
+  async componentDidMount() {
     console.log( this.props.name + "Component did mount in child");
-
     // api call here
-}
+    const data = await fetch("https://api.github.com/users/sonysandr");
+    const json = await data.json();
+    console.log(json);
+    this.setState({
+      userInfo: json,
+    });
+  }
 
+  componentDidUpdate(){
+    console.log("Com did update is called")
+  }
+  componentWillUnmount(){
+    console.log("comp will unmount")
+  }
   render() {
-const {name, location} = this.props;
-const{count} = this.state;
-    console.log("child render")
+    // const { name, location } = this.props;
+    const{login,public_repos} = this.state.userInfo;
+    console.log("child render");
     return (
       <div className="user-card">
-        <h2>Name : {name}</h2>
-        <h3>Location : {location}</h3>
+        <h2>Name : {login}</h2>
+        <h3>Public repos : {public_repos}</h3>
         <h4>Contact : sandman@king</h4>
-        <h2>Count : {count}</h2>
-        <h3>Count  2 : {this.state.count2}</h3>
-        <button onClick={()=>{
-            // never update state variables directly
-            // this.state.count = this.state.count + 1;
-
-            this.setState({
-                count : this.state.count + 200,
-                count2: this.state.count2 + 1,
-            })
-        }}>Increase Count</button>
       </div>
     );
   }
