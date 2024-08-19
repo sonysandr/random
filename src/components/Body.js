@@ -1,4 +1,4 @@
-import RestroCard from "./RestroCard.js";
+import RestroCard, { withOpenNowLabel } from "./RestroCard.js";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer.js";
 import { Link } from "react-router-dom";
@@ -12,7 +12,9 @@ const Body = () => {
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
   const [searchText, setSearchText] = useState("");
 
-  console.log("Body rendered");
+  const RestroCardOpen = withOpenNowLabel(RestroCard);
+
+  console.log("Body rendered : ", listOfRestaurants);
 
   //   useEffect hook
   useEffect(() => {
@@ -36,19 +38,15 @@ const Body = () => {
     );
   };
 
+  // onlinestatus
+  const onlineStatus = useOnlineStatus();
 
-// onlinestatus
-const onlineStatus = useOnlineStatus();
-
-if(onlineStatus === false) 
-  return(
-    <div>
-      <h1>Opps.. Looks like you're offline. Check internet connection</h1>
-    </div>
-  );
-
-
-
+  if (onlineStatus === false)
+    return (
+      <div>
+        <h1>Opps.. Looks like you're offline. Check internet connection</h1>
+      </div>
+    );
 
   //   conditional rendering
   //   if(listOfRestaurants.length === 0) {
@@ -61,17 +59,18 @@ if(onlineStatus === false)
   ) : (
     <div className="body">
       {/* Rated Restaurtant filter button */}
-      <div className="filter">
-        <div className="search">
+      <div className="flex filter ">
+        <div className="p-4 m-4 ">
           <input
             type="search"
-            className="search-box"
+            className="px-4 py-2 mr-4 border rounded-lg "
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
           />
           <button
+            className="px-4 py-2 bg-green-400 rounded-lg"
             onClick={() => {
               // filter the cards and update the ui
               //
@@ -88,26 +87,28 @@ if(onlineStatus === false)
             Search
           </button>
         </div>
-        <button
-          className="filter-btn"
-          onClick={() => {
-            // filter logic here
-            const filteredList = listOfRestaurants.filter(
-              (res) => res.info.avgRating > 4.2
-            );
-            console.log(filteredList);
-            setListOfRestaurants(filteredList);
-          }}
-          onMouseOver={() => {
-            console.log("mouse over");
-          }}
-        >
-          TOP Rated Restaurants
-        </button>
+        <div className="flex items-center p-4 m-4">
+          <button
+            className="px-4 py-2 bg-gray-400 rounded-lg "
+            onClick={() => {
+              // filter logic here
+              const filteredList = listOfRestaurants.filter(
+                (res) => res.info.avgRating > 4.2
+              );
+              console.log(filteredList);
+              setListOfRestaurants(filteredList);
+            }}
+            onMouseOver={() => {
+              console.log("mouse over");
+            }}
+          >
+            TOP Rated Restaurants
+          </button>
+        </div>
       </div>
 
       {/* restro container */}
-      <div className="res-container">
+      <div className="flex flex-wrap ">
         {/* RestroCard */}
         {/* <RestroCard resData={resList[2]} /> */}
 
@@ -120,7 +121,13 @@ if(onlineStatus === false)
               to={"/restaurants/" + item.info.id}
             >
               
-              <RestroCard resData={item} />
+              {/* if isOpen true use RestroCardOpen otherwise use RestroCard comnponent */}
+
+              {item.info.isOpen ? (
+                <RestroCardOpen resData={item} />
+              ) : (
+                <RestroCard resData={item} />
+              )}
             </Link>
           );
         })}
@@ -130,3 +137,5 @@ if(onlineStatus === false)
 };
 
 export default Body;
+
+// [4].info.isOpen

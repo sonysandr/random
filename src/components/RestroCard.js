@@ -12,17 +12,19 @@ const RestroCard = (props) => {
   // destructuring the props
   const { resData } = props;
 
-  const { cloudinaryImageId, name, cuisines, avgRating, sla,  costForTwo } =
+  const { cloudinaryImageId, name, cuisines, avgRating, sla, costForTwo } =
     resData?.info;
 
   return (
-    <div className="res-card">
+    <div className=" p-4 m-4 w-[250px] rounded-lg bg-gray-200 hover:bg-gray-400    ">
       <img
-        className="res-logo"
+        className="rounded-lg res-logo"
         alt="res-logo"
         src={CDN_URL + cloudinaryImageId}
       />
-      <h3 style={styleCard}>{name}</h3>
+      <h3 className="py-2 text-lg font-bold " style={styleCard}>
+        {name}
+      </h3>
 
       <h4>{cuisines.join(", ")}</h4>
       <h4>{avgRating} stars</h4>
@@ -30,6 +32,21 @@ const RestroCard = (props) => {
       <h4>{costForTwo}</h4>
     </div>
   );
+};
+
+// HOC
+
+// input RestroCard ==> RestroCardOpenNow
+
+export const withOpenNowLabel = (RestroCard) => {
+  return (props) => {
+    return (
+      <div>
+        <label className="absolute p-1 m-2 text-white bg-black rounded-lg">Open Now</label>
+        <RestroCard {...props}/>
+      </div>
+    );
+  };
 };
 
 export default RestroCard;

@@ -15,15 +15,18 @@ const Header = () => {
 
   const onlineStatus = useOnlineStatus();
   return (
-    <div className="header">
+    // Header
+    <div className="flex justify-between mb-2 shadow-lg sm:bg-yellow-100 md:bg-green-200">
+      
       {/* Logo */}
-      <div className="logo-container">
-        <img className="logo" src={LOGO_URL} alt="logo image" />
+      <div className="flex ">
+        <img className="w-56" src={LOGO_URL} alt="logo image" />
       </div>
+      
       {/* NavItems */}
-      <div className="nav-items">
-        <ul>
-          {/* using unicode for the green dot and red dot */}
+      <div className="flex items-center ">
+        <ul className="flex gap-4 p-4 m-4">
+              {/* using unicode for the green dot and red dot */}
           <li>Online Status : {onlineStatus ? "\u{1F7E2}" : "\u{1F534} "}</li>
           <li>
             <Link to="/">Home</Link>
