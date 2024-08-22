@@ -45,6 +45,7 @@ const appRouter = createBrowserRouter([
         element: <Contact />,
       },
       {
+        // dynamic path using colon and giving it a resId  ( :resId  is dynamic ) 
         path:"/restaurants/:resId",
         element: <RestroMenu/>
       }

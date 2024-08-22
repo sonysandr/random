@@ -28,17 +28,21 @@ const Body = () => {
       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9352403&lng=77.624532&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
     const json = await data.json();
-    console.log(json);
+    console.log("path test");
+    console.log(
+      json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants
+    );
+    // updating both state variables with the api data
     // optional chaining in js used to better our code
     setListOfRestaurants(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
     setFilteredRestaurant(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   };
 
-  // onlinestatus
+  // onlinestatus using custom hook
   const onlineStatus = useOnlineStatus();
 
   if (onlineStatus === false)
@@ -48,17 +52,13 @@ const Body = () => {
       </div>
     );
 
-  //   conditional rendering
-  //   if(listOfRestaurants.length === 0) {
-  //     return <Shimmer/>
-  //   }
-
   // ternary operator for better code
   return listOfRestaurants.length === 0 ? (
     <Shimmer />
   ) : (
     <div className="body">
-      {/* Rated Restaurtant filter button */}
+      {/* Search Functionality */}
+
       <div className="flex filter ">
         <div className="p-4 m-4 ">
           <input
@@ -76,8 +76,7 @@ const Body = () => {
               //
               console.log(searchText);
               const searchRestaurant = listOfRestaurants.filter((res) => {
-                return res.info.name
-                  .toLowerCase()
+                return res.info.name.toLowerCase()
                   .includes(searchText.toLowerCase());
               });
 
@@ -87,22 +86,24 @@ const Body = () => {
             Search
           </button>
         </div>
+
         <div className="flex items-center p-4 m-4">
+          {/* Filter  functionality with rating */}
           <button
             className="px-4 py-2 bg-gray-400 rounded-lg "
             onClick={() => {
               // filter logic here
               const filteredList = listOfRestaurants.filter(
-                (res) => res.info.avgRating > 4.2
+                (res) => res.info.avgRating > 4.6
               );
               console.log(filteredList);
-              setListOfRestaurants(filteredList);
+              setFilteredRestaurant(filteredList);
             }}
             onMouseOver={() => {
               console.log("mouse over");
             }}
           >
-            TOP Rated Restaurants
+            Top Rated Restaurants
           </button>
         </div>
       </div>
@@ -110,7 +111,6 @@ const Body = () => {
       {/* restro container */}
       <div className="flex flex-wrap ">
         {/* RestroCard */}
-        {/* <RestroCard resData={resList[2]} /> */}
 
         {filteredRestaurant.map((item) => {
           // key should be in the parent
@@ -120,7 +120,6 @@ const Body = () => {
               key={item.info.id}
               to={"/restaurants/" + item.info.id}
             >
-              
               {/* if isOpen true use RestroCardOpen otherwise use RestroCard comnponent */}
 
               {item.info.isOpen ? (
@@ -137,5 +136,3 @@ const Body = () => {
 };
 
 export default Body;
-
-// [4].info.isOpen

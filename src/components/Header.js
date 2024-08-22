@@ -20,7 +20,10 @@ const Header = () => {
       
       {/* Logo */}
       <div className="flex ">
+        <Link to= "/">
         <img className="w-56" src={LOGO_URL} alt="logo image" />
+        </Link>
+        
       </div>
       
       {/* NavItems */}

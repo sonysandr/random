@@ -27,9 +27,9 @@ const RestroCard = (props) => {
       </h3>
 
       <h4>{cuisines.join(", ")}</h4>
-      <h4>{avgRating} stars</h4>
-      <h4>{sla.deliveryTime} minutes</h4>
-      <h4>{costForTwo}</h4>
+      <h4>{avgRating} ⭐</h4>
+      <h4>{sla.deliveryTime} minutes ⏱️</h4>
+      <h4>{costForTwo} 💰</h4>
     </div>
   );
 };
@@ -42,7 +42,7 @@ export const withOpenNowLabel = (RestroCard) => {
   return (props) => {
     return (
       <div>
-        <label className="absolute p-1 m-2 text-white bg-black rounded-lg">Open Now</label>
+        <label className="absolute p-2 m-2 text-white bg-black rounded-lg">Open Now</label>
         <RestroCard {...props}/>
       </div>
     );
