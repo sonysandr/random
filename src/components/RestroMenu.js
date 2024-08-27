@@ -3,13 +3,16 @@ import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
 import RestaurantCategory from "./RestaurantCategory";
+import { useState } from "react";
 
 const RestroMenu = () => {
   const { resId } = useParams();
-  console.log(resId); //check
+  // console.log(resId); 
+
+  const [showIndex, setShowIndex] = useState(null);
 
   const resInfo = useRestaurantMenu(resId);
-  console.log(resInfo);
+  // console.log(resInfo);
 
   if (resInfo === null) {
     return <Shimmer />;
@@ -30,7 +33,7 @@ const RestroMenu = () => {
         c.card?.card?.["@type"] ==
         "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
     );
-  console.log(categories);
+  // console.log(categories);
 
   return (
     <div className="text-center">
@@ -39,15 +42,21 @@ const RestroMenu = () => {
       <h3 className="font-bold ">{cuisines.join(", ")}</h3>
 
       {/* Categories Accordion = each categories is an accordion */}
-      {categories.map((category)=>{
-        return(
-          <RestaurantCategory key={category?.card.card.name} data={category?.card?.card} />
-        )
+      {categories.map((category, index) => {
+        return (
+          // Controlled component
+          <RestaurantCategory
+            key={category?.card.card.title}
+            data={category?.card?.card}
+            showItems={index == showIndex ? true : false}
+            setShowIndex = {()=>setShowIndex(index)}
+          />
+        );
       })}
     </div>
   );
 };
 
 export default RestroMenu;
-
+// data.cards[4].groupedCard.cardGroupMap.REGULAR.cards[1].card.card.title
 // when this page loads =>  we make an api call => we use hooks for this

@@ -9,7 +9,7 @@ const ItemList = (props) => {
       {items.map((item) => {
         return (
           <div
-            key={item.card.info.id}
+            key={item.card.info.name}
             className="flex justify-between pb-2 m-2 border-b-2 border-black"
           >
             <div className="w-[790px] h-[160px] bg-gray-100    ">

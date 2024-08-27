@@ -10,30 +10,30 @@ class UserClass extends React.Component {
       },
     };
 
-    console.log("child constructor");
+    // console.log("child constructor");
   }
 
   async componentDidMount() {
-    console.log( this.props.name + "Component did mount in child");
+    // console.log( this.props.name + "Component did mount in child");
     // api call here
     const data = await fetch("https://api.github.com/users/sonysandr");
     const json = await data.json();
-    console.log(json);
+    // console.log(json);
     this.setState({
       userInfo: json,
     });
   }
 
   componentDidUpdate(){
-    console.log("Com did update is called")
+    // console.log("Com did update is called")
   }
   componentWillUnmount(){
-    console.log("comp will unmount")
+    // console.log("comp will unmount")
   }
   render() {
     // const { name, location } = this.props;
     const{login,public_repos} = this.state.userInfo;
-    console.log("child render");
+    // console.log("child render");
     return (
       <div className="user-card">
         <h2>Name : {login}</h2>

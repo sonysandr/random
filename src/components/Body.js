@@ -1,8 +1,10 @@
 import RestroCard, { withOpenNowLabel } from "./RestroCard.js";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Shimmer from "./Shimmer.js";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus.js";
+
+import UserContext from "../utils/UserContext.js";
 
 // Body
 const Body = () => {
@@ -52,6 +54,8 @@ const Body = () => {
       </div>
     );
 
+    const {setUserName, loggedInUser} = useContext(UserContext);
+
   // ternary operator for better code
   return listOfRestaurants.length === 0 ? (
     <Shimmer />
@@ -76,7 +80,8 @@ const Body = () => {
               //
               console.log(searchText);
               const searchRestaurant = listOfRestaurants.filter((res) => {
-                return res.info.name.toLowerCase()
+                return res.info.name
+                  .toLowerCase()
                   .includes(searchText.toLowerCase());
               });
 
@@ -105,6 +110,12 @@ const Body = () => {
           >
             Top Rated Restaurants
           </button>
+        </div>
+        {/* change userName in context */}
+        <div className="flex items-center p-4 m-4">
+          <label>User Name</label>
+          <input className="px-4 py-2 mr-4 border rounded-lg " onChange={(e)=>{ setUserName(e.target.value)}} 
+          value={loggedInUser} />
         </div>
       </div>
 

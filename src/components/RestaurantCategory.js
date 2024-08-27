@@ -2,13 +2,16 @@ import { useState } from "react";
 import ItemList from "./ItemList";
 
 const RestaurantCategory = (props) => {
-  const { data } = props;
+  const { data ,showItems ,setShowIndex } = props;
 
-  const [showItems, setShowItems] =useState(false);
+//  const [showItems, setShowItems] = useState(false);
 
   const handleClick = () =>{
-    console.log("clicked");
-    setShowItems(!showItems);
+    // console.log("clicked");
+    // setShowItems(!showItems);
+    
+    // this function is passed as a prop
+    setShowIndex();
   }
 
   return (
