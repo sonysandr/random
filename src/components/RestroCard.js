@@ -27,7 +27,9 @@ const RestroCard = (props) => {
         className="rounded-lg res-logo"
         alt="res-logo"
         src={CDN_URL + cloudinaryImageId}
+      
       />
+      
       <h3 className="py-2 text-lg font-bold " style={styleCard}>
         {name}
       </h3>
