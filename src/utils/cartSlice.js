@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 
 const cartSlice = createSlice({
@@ -11,8 +11,11 @@ const cartSlice = createSlice({
     reducers : {
         // for each actions we'll have a reducer functions
         addItem : (state, action) =>{
-            // we are mutating the state over here
+            console.log("see here");
+            console.log(current(state))
+            // we are mutating the existing state 
                state.items.push(action.payload) 
+             
         } ,
         removeItem : (state,action) => {
             state.items.pop();
@@ -20,8 +23,11 @@ const cartSlice = createSlice({
         clearCart : (state,action) =>{
             // we can clear the cart by using the logic of setting the array length to zero
             // length of zero will make it an empty array
-            state.items.length = 0 ;
-            //  doing state = [] doesnt work
+           state.items.length = 0 ;
+                        // but doing state = [] doesnt work
+            // ALSO
+            //  return a new state which will also work
+            // return {items : []}
         },
     },
  });

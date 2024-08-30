@@ -13,6 +13,7 @@ const styleCard = {
 const RestroCard = (props) => {
   // destructuring the props
   const { resData } = props;
+  console.log(resData);
 
   // Context data
   const data = useContext(UserContext);
